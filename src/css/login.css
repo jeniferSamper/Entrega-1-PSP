@@ -1,13 +1,70 @@
-body {
-  background-color: pink;
-  font-family: Arial, sans-serif;
-  padding: 20px;
+.login-container {
+  background-color: rgba(255, 255, 255, 0.97);
+  padding: 50px 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   width: 100%;
-  height: 100%;
+  max-width: 400px;
+  text-align: center;
 }
 
-input,
-button {
-  padding: 8px;
-  margin: 5px 0;
+.title-login {
+  margin-bottom: 20px;
+  font-size: 1.8em;
+  color: #052c66;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.input-name,
+.input-lastname {
+  padding: 12px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border 0.2s ease;
+  width: 100%;
+}
+
+.input-name:focus,
+.input-lastname:focus {
+  outline: none;
+  border-color: #052c66;
+}
+
+.login-button {
+  padding: 12px;
+  font-size: 1em;
+  background-color: #052c66;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.5s ease;
+  border: 2px solid #ffffff;
+}
+
+.login-button:hover {
+  background-color: #ffffff;
+  color: #052c66;
+  border: 2px solid #052c66;
+}
+
+
+@media (max-width: 480px) {
+  .login-container {
+    padding: 25px 20px;
+  }
+
+  .title-login {
+    font-size: 1.5em;
+  }
+
+  .login-button {
+    font-size: 0.95em;
+  }
 }
