@@ -1,3 +1,5 @@
+import { navigateTo } from '../main.js';
+
 export function taskView() {
   const container = document.createElement('div');
   container.classList.add('task-container');
@@ -5,9 +7,17 @@ export function taskView() {
   const content = document.createElement('div');
   content.classList.add('task-content');
 
-  // Sección izquierda: Formulario
+  // Seccion izquierda: Formulario
   const formSection = document.createElement('div');
   formSection.classList.add('form-section');
+
+  // Titulo de bienvenida
+  const nombre = localStorage.getItem('username') || '';
+  const apellido = localStorage.getItem('lastname') || '';
+  const tituloBienvenida = document.createElement('h1');
+  tituloBienvenida.classList.add('titulo-bienvenida');
+  tituloBienvenida.textContent = `Bienvenido ${nombre} ${apellido}`;
+  formSection.appendChild(tituloBienvenida);
 
   const title = document.createElement('h2');
   title.textContent = 'Registrar Tarea';
@@ -50,7 +60,7 @@ export function taskView() {
   formSection.appendChild(title);
   formSection.appendChild(form);
 
-  // Sección derecha: Lista
+  // Seccion derecha: Lista
   const listSection = document.createElement('div');
   listSection.classList.add('list-section');
 
@@ -69,17 +79,30 @@ export function taskView() {
     botonesEstados.appendChild(btn);
   });
 
-  const ulTareas = document.createElement('ul');
-  ulTareas.classList.add('task-list');
+  const btnOrdenarFecha = document.createElement('button');
+  btnOrdenarFecha.textContent = 'Ordenar por fecha ▲';
+  btnOrdenarFecha.classList.add('ordenar-fecha-btn');
+  let ordenAscendente = true;
+
+  btnOrdenarFecha.addEventListener('click', () => {
+    ordenAscendente = !ordenAscendente;
+    btnOrdenarFecha.textContent = ordenAscendente
+      ? 'Ordenar por fecha ▲'
+      : 'Ordenar por fecha ▼';
+    renderTareas();
+  });
 
   listSection.appendChild(listTitle);
   listSection.appendChild(botonesEstados);
+  listSection.appendChild(btnOrdenarFecha);
+
+  const ulTareas = document.createElement('ul');
+  ulTareas.classList.add('task-list');
   listSection.appendChild(ulTareas);
 
-  // Modal
   const modal = document.createElement('div');
   modal.classList.add('modal');
-  modal.style.display = 'none'; // Oculto al inicio
+  modal.style.display = 'none';
   modal.innerHTML = `
     <div class="modal-content">
       <span class="close-button">&times;</span>
@@ -122,8 +145,11 @@ export function taskView() {
     ulTareas.innerHTML = '';
     let tareas = JSON.parse(localStorage.getItem('tareas')) || [];
 
-    // Ordenar por fecha
-    tareas.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+    tareas.sort((a, b) => {
+      return ordenAscendente
+        ? new Date(a.fecha) - new Date(b.fecha)
+        : new Date(b.fecha) - new Date(a.fecha);
+    });
 
     tareas.forEach((tarea, index) => {
       const li = document.createElement('li');
@@ -136,7 +162,6 @@ export function taskView() {
         <label><strong>Estado:</strong></label>
       `;
 
-      // Selector de estado editable
       const select = document.createElement('select');
       ['Sin iniciar', 'En progreso', 'Culminado'].forEach(estado => {
         const option = document.createElement('option');
@@ -152,7 +177,6 @@ export function taskView() {
         renderTareas();
       });
 
-      // Botón eliminar
       const btnEliminar = document.createElement('button');
       btnEliminar.textContent = 'Eliminar';
       btnEliminar.classList.add('delete-button');
@@ -173,10 +197,24 @@ export function taskView() {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
 
+    const titulo = inputTitulo.value.trim();
+    const descripcion = inputDescripcion.value.trim();
+    const fecha = inputFecha.value;
+
+    if (!titulo || !descripcion || !fecha) {
+      alert('Todos los campos son obligatorios');
+      return;
+    }
+
+    if (titulo.length < 3) {
+      alert('El título debe tener al menos 3 caracteres');
+      return;
+    }
+
     const nuevaTarea = {
-      titulo: inputTitulo.value.trim(),
-      descripcion: inputDescripcion.value.trim(),
-      fecha: inputFecha.value,
+      titulo,
+      descripcion,
+      fecha,
       estado: selectEstado.value
     };
 
@@ -194,5 +232,15 @@ export function taskView() {
   container.appendChild(modal);
 
   renderTareas();
+
+  const verGraficosBtn = document.createElement('button');
+  verGraficosBtn.textContent = 'Ver gráficos';
+  verGraficosBtn.classList.add('ver-graficos-btn');
+  verGraficosBtn.addEventListener('click', () => {
+    navigateTo('/result');
+  });
+
+  container.appendChild(verGraficosBtn);
+
   return container;
 }

@@ -191,6 +191,58 @@
   background-color: #e74c3c;
 }
 
+.ver-graficos-btn {
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #2980b9;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  display: block;
+  transition: background-color 0.3s ease;
+}
+
+.ver-graficos-btn:hover {
+  background-color: #1c5980;
+}
+
+
+.task-list {
+  max-height: 50vh;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+
+.task-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.task-list::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+h1.titulo-bienvenida {
+    color: #333;
+    padding-bottom: 15px;
+}
+
+.ordenar-fecha-btn {
+  margin: 10px 0;
+  padding: 8px 12px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.ordenar-fecha-btn:hover {
+  background-color: #2980b9;
+}
 
 /* Responsive */
 @media (max-width: 768px) {

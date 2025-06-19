@@ -1,7 +1,8 @@
 // main.js
 import { loginView } from './view/login.js';
 import { taskView } from './view/task.js';
-// import { resultView } from './lib/View/result.js';
+import { resultView } from './view/result.js';
+
 
 const root = document.getElementById('root');
 
@@ -9,7 +10,7 @@ const root = document.getElementById('root');
 const routes = {
   '/': loginView,
   '/task': taskView,
-  // '/result': resultView,
+  '/result': resultView,
 };
 
 // Cambiar de vista (SPA)
